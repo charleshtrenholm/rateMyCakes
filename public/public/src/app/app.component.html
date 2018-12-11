@@ -1,0 +1,60 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+    <h1>Rate My Cakes</h1>
+    <div class="row justify-content-center">
+        <div class="col-4" id="formContainer">
+            <form (submit)="newCakeAdded()">
+                <div class="form-group">
+                    <label for="bakerName">Baker Name:</label>
+                    <input type="text" [(ngModel)]="bakerName" name="bakerName" class="form-control">
+                    <label for="cakeURL">Cake Image URL: </label>
+                    <input type="text" [(ngModel)]="cakeURL" name="cakeURL" class="form-control">
+                    <input type="submit" value="Add a cake!" id="addCakeButton" class="col-4 offset-4 btn btn-success">
+                </div>
+            </form>
+        </div>
+        <div class="col-8" id="allCakesContainer">
+            <div *ngFor="let cake of allCakes" class="row oneCakeContainer">
+                <div class="imgContainer col-3">
+                    <img src="{{cake.imageURL}}" width="200" height="200">
+                </div>
+                <div class="col-9 formContainer">
+                    <p>Created By {{cake.baker}}</p>
+                    <form (submit)="cakeRatingAdded(cake._id)">
+                        <div class="form-group">
+                            <label for="ratingNumber">Rating Number: </label>
+                            <select class="custom-select" name="ratingNumber[cake._id]" [(ngModel)]="ratingNumber[cake._id]">
+                                <option value="5">5 - L0v3 1T!!</option>
+                                <option value="4">4 - ehH i LIKE it but EhH</option>
+                                <option value="3">3 - uh. ya. B0R1NG! but ok</option>
+                                <option value="2">2 - ugh. P.U. my guy</option>
+                                <option value="1">1 - L1T3R4LLY K1LL M3</option>
+                            </select>
+                            <label for="ratingComment">Comment: </label>
+                            <input [(ngModel)]="ratingComment[cake._id]" name="ratingComment[cake._id]" class="form-control col-8 ugh" />
+                            <input type="submit" class="btn btn-success subMeat" value="Submit">
+                            <button type="button" class="btn btn-info subMeat" (click)="showRatings(cake._id)">View</button>
+                        </div>                       
+                    </form>
+                </div>    
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center" id="cakeClickedDisplay">
+        <div class="row col-8" *ngIf="cakeClicked">
+            <div class="col-4">
+                <img src="{{cakeClicked.imageURL}}" width="250" height="250">
+            </div>
+            <div class="col-8 allRatings">
+                <h4>Created by {{cakeClicked.baker}}</h4>
+                <div *ngFor="let r of cakeClicked.ratings" class="oneRating">
+                    <p>{{r.value}}</p>
+                    <p>{{r.comment}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
